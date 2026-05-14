@@ -21,21 +21,7 @@ services:
         interval: 30s
         timeout: 5s
         retries: 3
-    depends_on:
-      - sigv4-proxy
   
-  #to sign requests
-  sigv4-proxy:
-    image: public.ecr.aws/aws-observability/aws-sigv4-proxy:latest
-    container_name: aws-sigv4-proxy
-    environment:
-      AWS_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY}
-      AWS_SECRET_ACCESS_KEY: ${MINIO_SECRET_KEY}
-      AWS_REGION: us-east-1
-    command: --port 8080 --endpoint http://minio:9000 --signing-enabled
-    networks:
-      - shared-infra-net
-    restart: unless-stopped
 
 volumes:
   cache-data:
